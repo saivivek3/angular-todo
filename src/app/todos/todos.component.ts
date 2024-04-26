@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { TodosService } from '../services/api/todos.service';
 import { TodoRepresentation } from '../services/models/todo-representation';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-todos',
@@ -13,10 +14,11 @@ export class TodosComponent implements AfterViewInit {
   buttonText: string = 'Add Todo';
   isEditTodo: boolean = false;
   singleTodo: TodoRepresentation = {};
+  placeholderText: string = 'Enter a Todos....';
   persistAllTodo: any = [];
 
   @ViewChild('text', { static: true }) text!: ElementRef<HTMLInputElement>;
-  constructor(private service: TodosService) {}
+  constructor(private service: TodosService, private toastr: ToastrService) {}
 
   ngAfterViewInit() {
     this.text.nativeElement.focus();
@@ -26,6 +28,8 @@ export class TodosComponent implements AfterViewInit {
     this.service.getAllTodos().subscribe((todos) => {
       this.persistAllTodo = todos;
       this.todos = todos;
+      this.placeholderText = 'Enter a Todos....';
+      this.buttonText = 'Add Todo';
     });
   }
 
@@ -34,13 +38,16 @@ export class TodosComponent implements AfterViewInit {
   }
 
   addTodo() {
+    if (this.todoText === '') {
+      this.toastr.error('Please Add Todos', 'error');
+      return;
+    }
     if (this.isEditTodo) {
       this.service
         .updateTodo({ ...this.singleTodo, text: this.todoText })
         .subscribe({
           next: (todo) => {
-            alert('Updated Todo Succesfully');
-            console.log(todo, 'in edit');
+            this.toastr.success('Updated Todo Succesfully', 'Success');
             this.getAllTodosfunc();
             this.todoText = '';
           },
@@ -54,7 +61,7 @@ export class TodosComponent implements AfterViewInit {
         })
         .subscribe({
           next: (todo) => {
-            alert('Added Todo Successfully');
+            this.toastr.success('Added Todo Successfully', 'Success');
             this.todoText = '';
             this.getAllTodosfunc();
           },
@@ -73,11 +80,8 @@ export class TodosComponent implements AfterViewInit {
     });
 
     const singleTodo = this.todos.find((todo: any) => todo._id === id);
-    console.log({ singleTodo });
     this.service.updateTodo(singleTodo).subscribe({
       next: (todo) => {
-        alert('Updated Todo Successfully');
-        console.log(todo);
         this.getAllTodosfunc();
       },
     });
@@ -85,22 +89,20 @@ export class TodosComponent implements AfterViewInit {
   onDeleteTodo(id: any) {
     this.service.deleteTodo(id).subscribe({
       next: (todo) => {
-        alert('Deleted Todo Successfuly');
-        console.log(todo, 'in delete');
+        this.toastr.success('Deleted Todo Successfuly', 'Success');
         this.getAllTodosfunc();
       },
     });
   }
   onEditTodo(todo: TodoRepresentation) {
     this.isEditTodo = true;
-
     this.buttonText = 'Update Todo';
+    this.placeholderText = 'Update a Todo...';
     this.todoText = todo.text;
     this.singleTodo = todo;
   }
 
   onAllTodos() {
-    console.log('function was called');
     this.getAllTodosfunc();
   }
 

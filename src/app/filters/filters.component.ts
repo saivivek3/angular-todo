@@ -9,9 +9,7 @@ export class FiltersComponent {
   @Input()
   todos: any = [];
 
-  constructor() {
-    console.log(this.todos, 'in constructor');
-  }
+  constructor() {}
   @Output()
   onAllTodos = new EventEmitter();
 
@@ -30,5 +28,9 @@ export class FiltersComponent {
   }
   completedTodos() {
     this.onCompletedTodos.emit();
+  }
+
+  getRemainingCount() {
+    return this.todos.filter((todo: any) => !todo.completed).length;
   }
 }

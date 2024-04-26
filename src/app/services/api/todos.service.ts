@@ -6,7 +6,7 @@ import { TodoRepresentation } from '../models/todo-representation';
   providedIn: 'root',
 })
 export class TodosService {
-  private baseUrl = 'http://localhost:3000/todos';
+  private baseUrl = 'https://todo-services-engj.onrender.com/todos';
 
   constructor(private http: HttpClient) {}
 
@@ -14,7 +14,6 @@ export class TodosService {
     return this.http.post(this.baseUrl, todo);
   }
   getAllTodos() {
-    console.log('getAllTodos was called');
     return this.http.get(this.baseUrl);
   }
   updateTodo(todo: TodoRepresentation) {
