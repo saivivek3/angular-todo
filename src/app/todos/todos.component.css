@@ -1,0 +1,61 @@
+.bg-container {
+  background-color: hsl(235, 21%, 11%);
+  min-height: 100vh;
+}
+
+.image-container {
+  display: block;
+  position: absolute;
+}
+
+.image {
+  min-width: 98vw;
+  object-fit: cover;
+  height: 300px;
+  display: block;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 90%;
+  padding: 16px;
+  position: relative;
+  z-index: 2;
+  padding-top: 200px;
+}
+
+.input-container {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background-color: hsl(235, 24%, 19%);
+  color: #fff;
+  padding: 16px;
+}
+
+input {
+  all: unset;
+  margin-left: 20px;
+  margin-right: 24px;
+}
+
+button {
+  all: unset;
+  background-color: #298e46;
+  color: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.box-container {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background-color: hsl(237, 14%, 26%);
+  padding: 16px;
+  color: white;
+}
+
+.todo-item-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

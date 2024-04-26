@@ -1,0 +1,39 @@
+<div class="bg-container">
+  <div class="image-container">
+    <img
+      src="https://plus.unsplash.com/premium_photo-1681487870238-4a2dfddc6bcb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fHRvJTIwZG8lMjBsaXN0fGVufDB8fDB8fHww"
+      class="image"
+    />
+  </div>
+  <div class="container">
+    <div class="input-container">
+      <input
+        type="text"
+        placeholder="Create a New Todo"
+        name="todoText"
+        [(ngModel)]="todoText"
+        id="todoText"
+        #text
+        [value]="todoText"
+      />
+      <button (click)="addTodo()">{{ buttonText }}</button>
+    </div>
+    <div class="box-container">
+      <div class="todo-item-container">
+        <app-todo-item
+          *ngFor="let todo of todos"
+          [todo]="todo"
+          (toggleCheckbox)="toggle($event)"
+          (onDeleteTodo)="onDeleteTodo($event)"
+          (onEditTodo)="onEditTodo($event)"
+        ></app-todo-item>
+      </div>
+      <app-filters
+        [todos]="todos"
+        (onActiveTodos)="onActiveTodos()"
+        (onCompletedTodos)="onCompletedTodos()"
+        (onAllTodos)="onAllTodos()"
+      ></app-filters>
+    </div>
+  </div>
+</div>

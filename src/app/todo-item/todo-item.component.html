@@ -1,0 +1,19 @@
+<div class="box">
+  <div class="checkbox-container">
+    <input
+      type="checkbox"
+      [checked]="todo.completed"
+      (change)="toggleTodo(todo._id)"
+    />
+    <p
+      [ngClass]="todo.completed ? 'completed' : 'uncompleted'"
+      class="text-color"
+    >
+      {{ todo.text }}
+    </p>
+  </div>
+  <div class="buttons-container">
+    <span class="material-icons" (click)="editTodo(todo)">mode_edit</span>
+    <span class="material-icons" (click)="deleteTodo(todo._id)">delete</span>
+  </div>
+</div>

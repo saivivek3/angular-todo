@@ -1,0 +1,20 @@
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  all: unset;
+  background-color: #298e46;
+  color: #fff;
+  padding: 8px 16px 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}

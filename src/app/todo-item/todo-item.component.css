@@ -1,0 +1,29 @@
+.box {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid hsl(233, 14%, 35%);
+  padding: 8px;
+}
+.completed {
+  text-decoration: line-through;
+}
+
+.not-completed {
+  text-decoration: none;
+}
+
+.text-color {
+  color: hsl(234, 39%, 85%);
+}
+.checkbox-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  cursor: pointer;
+}
