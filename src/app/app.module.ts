@@ -11,6 +11,8 @@ import { FiltersComponent } from './filters/filters.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
+import { LineChartComponent } from './line-chart/line-chart.component';
+import { PieChartComponent } from './pie-chart/pie-chart.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { ToastrModule } from 'ngx-toastr';
     TodosComponent,
     TodoItemComponent,
     FiltersComponent,
+    LineChartComponent,
+    PieChartComponent,
   ],
   imports: [
     BrowserModule,

@@ -26,6 +26,7 @@
           (toggleCheckbox)="toggle($event)"
           (onDeleteTodo)="onDeleteTodo($event)"
           (onEditTodo)="onEditTodo($event)"
+          [todosCount]="getItemsCount(todo.text)"
         ></app-todo-item>
       </div>
       <app-filters
@@ -34,6 +35,10 @@
         (onCompletedTodos)="onCompletedTodos()"
         (onAllTodos)="onAllTodos()"
       ></app-filters>
+      <button (click)="goToPage('line')">Go to Line Chart</button>
+      <button [ngStyle]="{ 'margin-left': '40px' }" (click)="goToPage('pie')">
+        Go to Pie Chart
+      </button>
     </div>
   </div>
 </div>

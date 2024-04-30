@@ -9,7 +9,18 @@
       [ngClass]="todo.completed ? 'completed' : 'uncompleted'"
       class="text-color"
     >
-      {{ todo.text }}
+      {{ todo.text }}-(<span [ngStyle]="{ color: 'yellow' }">{{
+        todosCount
+      }}</span
+      >)
+      <span
+        [ngStyle]="{
+          color: '#8AAAE5',
+          'font-weight': 'bold',
+          'margin-left': '30px'
+        }"
+        >{{ todo.createdAt?.includes("Invalid") ? "" : todo.createdAt }}</span
+      >
     </p>
   </div>
   <div class="buttons-container">

@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { TodosService } from '../services/api/todos.service';
 import { TodoRepresentation } from '../services/models/todo-representation';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-todos',
@@ -18,16 +19,44 @@ export class TodosComponent implements AfterViewInit {
   persistAllTodo: any = [];
 
   @ViewChild('text', { static: true }) text!: ElementRef<HTMLInputElement>;
-  constructor(private service: TodosService, private toastr: ToastrService) {}
+  constructor(
+    private service: TodosService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
   ngAfterViewInit() {
     this.text.nativeElement.focus();
   }
 
+  getFormattedDate(dateTimeString: string) {
+    const dateTime = new Date(dateTimeString);
+
+    // Format the date as desired
+    const options: any = {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+    };
+    const formattedDate = dateTime.toLocaleDateString('en-US', options);
+    // Format the time as desired
+    const formattedTime = dateTime.toLocaleTimeString('en-US');
+    // Combine date and time
+    const formattedDateTime = `${formattedDate} ${formattedTime}`;
+    return formattedDateTime;
+  }
+
   getAllTodosfunc() {
-    this.service.getAllTodos().subscribe((todos) => {
-      this.persistAllTodo = todos;
-      this.todos = todos;
+    this.service.getAllTodos().subscribe((todos: any) => {
+      const reframedTodos = todos.map((todo: any) => ({
+        ...todo,
+        createdAt: this.getFormattedDate(todo.createdAt),
+        updatedAt: this.getFormattedDate(todo.updatedAt),
+      }));
+
+      console.log({ reframedTodos });
+      this.persistAllTodo = reframedTodos;
+      this.todos = reframedTodos;
       this.placeholderText = 'Enter a Todos....';
       this.buttonText = 'Add Todo';
     });
@@ -35,6 +64,14 @@ export class TodosComponent implements AfterViewInit {
 
   ngOnInit() {
     this.getAllTodosfunc();
+  }
+
+  getItemsCount(text: any) {
+    let count = 0;
+    this.todos.forEach((todo: any) =>
+      todo.text === text ? ++count : (count = 1)
+    );
+    return count;
   }
 
   addTodo() {
@@ -111,5 +148,11 @@ export class TodosComponent implements AfterViewInit {
   }
   onCompletedTodos() {
     this.todos = this.persistAllTodo.filter((todo: any) => todo.completed);
+  }
+
+  goToPage(chart: any) {
+    return chart === 'line'
+      ? this.router.navigate(['/line-chart'])
+      : this.router.navigateByUrl('/pie-chart');
   }
 }

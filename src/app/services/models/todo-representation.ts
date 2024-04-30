@@ -3,4 +3,5 @@ export interface TodoRepresentation {
   text?: string;
   completed?: boolean;
   _v?: number;
+  createdAt?: string;
 }

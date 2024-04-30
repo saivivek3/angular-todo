@@ -10,6 +10,9 @@ export class TodoItemComponent {
   @Input()
   todo: TodoRepresentation = {};
 
+  @Input()
+  todosCount: any = [];
+
   @Output()
   toggleCheckbox = new EventEmitter();
   @Output()
@@ -17,6 +20,8 @@ export class TodoItemComponent {
 
   @Output()
   onEditTodo = new EventEmitter();
+
+  count: any = 1;
 
   toggleTodo(id: any) {
     this.toggleCheckbox.emit(id);
