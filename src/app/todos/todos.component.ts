@@ -164,20 +164,36 @@ export class TodosComponent implements AfterViewInit {
       ? this.router.navigate(['/line-chart'])
       : this.router.navigateByUrl('/pie-chart');
   }
+
+  formateDate(createdAt: any) {
+    return new Date(createdAt).toISOString().split('T')[0];
+  }
+
   getSelectedDate() {
-    this.todos = this.persistAllTodo.filter((todo: any) => {
-      return (
-        new Date(todo.createdAt).toISOString().split('T')[0] ===
-        this.selectedDate
-      );
-    });
+    if (this.selectedOptionValue) {
+      this.selectSorting();
+    } else {
+      this.todos = this.persistAllTodo.filter((todo: any) => {
+        return this.formateDate(todo.createdAt) === this.selectedDate;
+      });
+    }
   }
 
   selectSorting() {
     if (this.selectedOptionValue === 'asc') {
-      this.todos.sort((a: any, b: any) => a.text.localeCompare(b.text));
+      this.todos = this.persistAllTodo
+        .slice()
+        .filter(
+          (todo: any) => this.formateDate(todo.createdAt) === this.selectedDate
+        )
+        .sort((a: any, b: any) => a.text.localeCompare(b.text));
     } else {
-      this.todos.sort((a: any, b: any) => b.text.localeCompare(a.text));
+      this.todos = this.persistAllTodo
+        .slice()
+        .filter(
+          (todo: any) => this.formateDate(todo.createdAt) === this.selectedDate
+        )
+        .sort((a: any, b: any) => b.text.localeCompare(a.text));
     }
   }
 }
