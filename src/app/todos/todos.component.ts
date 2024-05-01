@@ -51,7 +51,7 @@ export class TodosComponent implements AfterViewInit {
     this.service.getAllTodos().subscribe((todos: any) => {
       const reframedTodos = todos.map((todo: any) => ({
         ...todo,
-        createdAt: this.getFormattedDate(todo.createdAt),
+        createdAt: this.getFormattedDate(todo.updatedAt),
         updatedAt: this.getFormattedDate(todo.updatedAt),
       }));
 
@@ -88,6 +88,7 @@ export class TodosComponent implements AfterViewInit {
         .updateTodo({ ...this.singleTodo, text: this.todoText })
         .subscribe({
           next: (todo) => {
+            console.log(todo, 'todo in edits');
             this.toastr.success('Updated Todo Succesfully', 'Success');
             this.getAllTodosfunc();
             this.todoText = '';
