@@ -26,7 +26,7 @@
           (toggleCheckbox)="toggle($event)"
           (onDeleteTodo)="onDeleteTodo($event)"
           (onEditTodo)="onEditTodo($event)"
-          [todosCount]="getItemsCount(todo.text)"
+          [todosCnt]="todosCount[todo.text]"
         ></app-todo-item>
       </div>
       <app-filters

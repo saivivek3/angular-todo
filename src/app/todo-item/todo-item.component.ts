@@ -11,7 +11,7 @@ export class TodoItemComponent {
   todo: TodoRepresentation = {};
 
   @Input()
-  todosCount: any = [];
+  todosCnt: any = 0;
 
   @Output()
   toggleCheckbox = new EventEmitter();

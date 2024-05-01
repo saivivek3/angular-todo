@@ -17,6 +17,7 @@ export class TodosComponent implements AfterViewInit {
   singleTodo: TodoRepresentation = {};
   placeholderText: string = 'Enter a Todos....';
   persistAllTodo: any = [];
+  todosCount: any = [];
 
   @ViewChild('text', { static: true }) text!: ElementRef<HTMLInputElement>;
   constructor(
@@ -59,6 +60,7 @@ export class TodosComponent implements AfterViewInit {
       this.todos = reframedTodos;
       this.placeholderText = 'Enter a Todos....';
       this.buttonText = 'Add Todo';
+      this.getTodoCount(todos);
     });
   }
 
@@ -66,12 +68,14 @@ export class TodosComponent implements AfterViewInit {
     this.getAllTodosfunc();
   }
 
-  getItemsCount(text: any) {
-    let count = 0;
-    this.todos.forEach((todo: any) =>
-      todo.text === text ? ++count : (count = 1)
-    );
-    return count;
+  getTodoCount(todos: any) {
+    const allTodoTexts = todos.map((todo: any) => todo.text);
+    this.todosCount = allTodoTexts.reduce((acc: any, curr: any) => {
+      acc[curr] = acc[curr] ? ++acc[curr] : 1;
+      return acc;
+    }, {});
+
+    console.log(this.todosCount, 'count in gettodocount');
   }
 
   addTodo() {
