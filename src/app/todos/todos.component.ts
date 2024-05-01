@@ -49,18 +49,20 @@ export class TodosComponent implements AfterViewInit {
 
   getAllTodosfunc() {
     this.service.getAllTodos().subscribe((todos: any) => {
-      const reframedTodos = todos.map((todo: any) => ({
-        ...todo,
-        createdAt: this.getFormattedDate(todo.updatedAt),
-        updatedAt: this.getFormattedDate(todo.updatedAt),
-      }));
+      const reframedTodos = todos
+        .filter((todo: any) => todo.createdAt)
+        .map((todo: any) => ({
+          ...todo,
+          createdAt: this.getFormattedDate(todo.updatedAt),
+          updatedAt: this.getFormattedDate(todo.updatedAt),
+        }));
 
       console.log({ reframedTodos });
       this.persistAllTodo = reframedTodos;
       this.todos = reframedTodos;
       this.placeholderText = 'Enter a Todos....';
       this.buttonText = 'Add Todo';
-      this.getTodoCount(todos);
+      this.getTodoCount(this.todos);
     });
   }
 

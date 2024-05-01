@@ -33,11 +33,13 @@ export class PieChartComponent {
 
   getAllTodosfunc() {
     this.service.getAllTodos().subscribe((todos: any) => {
-      const reframedTodos = todos.map((todo: any) => ({
-        ...todo,
-        createdAt: this.getFormattedDate(todo.createdAt),
-        updatedAt: this.getFormattedDate(todo.updatedAt),
-      }));
+      const reframedTodos = todos
+        .filter((todo: any) => todo.createdAt)
+        .map((todo: any) => ({
+          ...todo,
+          createdAt: this.getFormattedDate(todo.createdAt),
+          updatedAt: this.getFormattedDate(todo.updatedAt),
+        }));
       this.todos = reframedTodos;
       this.callHighChart(this.todos);
     });

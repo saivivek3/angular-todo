@@ -33,11 +33,13 @@ export class LineChartComponent {
 
   getAllTodosfunc() {
     this.service.getAllTodos().subscribe((todos: any) => {
-      const reframedTodos = todos.map((todo: any) => ({
-        ...todo,
-        createdAt: this.getFormattedDate(todo.createdAt),
-        updatedAt: this.getFormattedDate(todo.updatedAt),
-      }));
+      const reframedTodos = todos
+        .filter((todo: any) => todo.createdAt)
+        .map((todo: any) => ({
+          ...todo,
+          createdAt: this.getFormattedDate(todo.createdAt),
+          updatedAt: this.getFormattedDate(todo.updatedAt),
+        }));
       this.todos = reframedTodos;
       this.callHighChart(this.todos);
     });
@@ -57,15 +59,19 @@ export class LineChartComponent {
       ),
     ];
 
-    const data = dateValues.map((date: any) => {
-      const objData: any = {};
+    const data: any = dateValues.map((date: any) => {
+      let objData: any = {};
+      console.log({ updatedDates });
       updatedDates.forEach((todo: any) => {
         if (todo.createdAt === date) {
           objData[todo.text] = objData[todo.text] ? ++objData[todo.text] : 1;
         } else {
-          objData[todo.text] = 0;
+          if (!(todo.text in objData)) {
+            objData[todo.text] = 0;
+          }
         }
       });
+
       return {
         date,
         ...objData,
