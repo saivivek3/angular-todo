@@ -181,19 +181,33 @@ export class TodosComponent implements AfterViewInit {
 
   selectSorting() {
     if (this.selectedOptionValue === 'asc') {
-      this.todos = this.persistAllTodo
-        .slice()
-        .filter(
-          (todo: any) => this.formateDate(todo.createdAt) === this.selectedDate
-        )
-        .sort((a: any, b: any) => a.text.localeCompare(b.text));
+      if (this.selectedDate) {
+        this.todos = this.persistAllTodo
+          .slice()
+          .filter(
+            (todo: any) =>
+              this.formateDate(todo.createdAt) === this.selectedDate
+          )
+          .sort((a: any, b: any) => a.text.localeCompare(b.text));
+      } else {
+        this.todos = this.persistAllTodo
+          .slice()
+          .sort((a: any, b: any) => a.text.localeCompare(b.text));
+      }
     } else {
-      this.todos = this.persistAllTodo
-        .slice()
-        .filter(
-          (todo: any) => this.formateDate(todo.createdAt) === this.selectedDate
-        )
-        .sort((a: any, b: any) => b.text.localeCompare(a.text));
+      if (this.selectedDate) {
+        this.todos = this.persistAllTodo
+          .slice()
+          .filter(
+            (todo: any) =>
+              this.formateDate(todo.createdAt) === this.selectedDate
+          )
+          .sort((a: any, b: any) => b.text.localeCompare(a.text));
+      } else {
+        this.todos = this.persistAllTodo
+          .slice()
+          .sort((a: any, b: any) => b.text.localeCompare(a.text));
+      }
     }
   }
 }
