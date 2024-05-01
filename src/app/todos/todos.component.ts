@@ -18,6 +18,8 @@ export class TodosComponent implements AfterViewInit {
   placeholderText: string = 'Enter a Todos....';
   persistAllTodo: any = [];
   todosCount: any = [];
+  selectedDate: any = '';
+  selectedOptionValue: any = '';
 
   @ViewChild('text', { static: true }) text!: ElementRef<HTMLInputElement>;
   constructor(
@@ -161,5 +163,21 @@ export class TodosComponent implements AfterViewInit {
     return chart === 'line'
       ? this.router.navigate(['/line-chart'])
       : this.router.navigateByUrl('/pie-chart');
+  }
+  getSelectedDate() {
+    this.todos = this.persistAllTodo.filter((todo: any) => {
+      return (
+        new Date(todo.createdAt).toISOString().split('T')[0] ===
+        this.selectedDate
+      );
+    });
+  }
+
+  selectSorting() {
+    if (this.selectedOptionValue === 'asc') {
+      this.todos.sort((a: any, b: any) => a.text.localeCompare(b.text));
+    } else {
+      this.todos.sort((a: any, b: any) => b.text.localeCompare(a.text));
+    }
   }
 }

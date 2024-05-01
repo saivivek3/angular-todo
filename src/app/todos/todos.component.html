@@ -5,18 +5,41 @@
       class="image"
     />
   </div>
+
   <div class="container">
-    <div class="input-container">
-      <input
-        type="text"
-        [placeholder]="placeholderText"
-        name="todoText"
-        [(ngModel)]="todoText"
-        id="todoText"
-        #text
-        [value]="todoText"
-      />
-      <button (click)="addTodo()">{{ buttonText }}</button>
+    <div class="both-container">
+      <div class="input-container">
+        <input
+          type="text"
+          [placeholder]="placeholderText"
+          name="todoText"
+          [(ngModel)]="todoText"
+          id="todoText"
+          #text
+          [value]="todoText"
+        />
+        <button (click)="addTodo()">{{ buttonText }}</button>
+      </div>
+
+      <div class="sorted-container">
+        <input
+          type="date"
+          name="selectedDate"
+          [(ngModel)]="selectedDate"
+          id="selectedDate"
+          (change)="getSelectedDate()"
+        />
+        <select
+          name="selectedOptionValue"
+          id="selectedOptionValue"
+          [(ngModel)]="selectedOptionValue"
+          (change)="selectSorting()"
+        >
+          <option value="" disabled selected>Select an option</option>
+          <option value="asc" defaultSelected>Ascending Order(a-z)</option>
+          <option value="dsc">Descending Order(z-a)</option>
+        </select>
+      </div>
     </div>
     <div class="box-container">
       <div class="todo-item-container">

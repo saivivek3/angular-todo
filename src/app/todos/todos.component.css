@@ -26,10 +26,6 @@
 }
 
 .input-container {
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  background-color: hsl(235, 24%, 19%);
-  color: #fff;
-  padding: 16px;
 }
 
 input {
@@ -59,3 +55,32 @@ button {
   flex-direction: column;
   gap: 16px;
 }
+
+.both-container {
+  display: flex;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background-color: hsl(235, 24%, 19%);
+  color: #fff;
+  padding: 16px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sorted-container {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background: #5585b5;
+  padding: 16px;
+  cursor: pointer;
+}
+
+select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  max-width: 150px;
+}
+
+/* Style when select is open */
