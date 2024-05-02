@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+} from '@angular/core';
 import { TodosService } from '../services/api/todos.service';
 import { TodoRepresentation } from '../services/models/todo-representation';
 import { ToastrService } from 'ngx-toastr';
@@ -29,6 +35,7 @@ export class TodosComponent implements AfterViewInit {
     private router: Router
   ) {}
 
+  @HostListener('window:scroll', ['$event'])
   ngAfterViewInit() {
     this.text.nativeElement.focus();
   }
@@ -134,6 +141,7 @@ export class TodosComponent implements AfterViewInit {
     this.placeholderText = 'Update a Todo...';
     this.todoText = todo.text;
     this.singleTodo = todo;
+    window.scrollTo(0, 0);
   }
 
   onAllTodos() {

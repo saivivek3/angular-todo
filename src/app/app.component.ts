@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as Highcharts from 'highcharts';
 
@@ -9,4 +9,5 @@ import * as Highcharts from 'highcharts';
 })
 export class AppComponent {
   title = 'my-project';
+  counter = 0;
 }
