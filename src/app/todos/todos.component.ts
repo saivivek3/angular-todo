@@ -22,6 +22,7 @@ export class TodosComponent implements AfterViewInit {
   selectedOptionValue: any = '';
 
   @ViewChild('text', { static: true }) text!: ElementRef<HTMLInputElement>;
+
   constructor(
     private service: TodosService,
     private toastr: ToastrService,
@@ -32,44 +33,33 @@ export class TodosComponent implements AfterViewInit {
     this.text.nativeElement.focus();
   }
 
-  getFormattedDate(dateTimeString: string) {
-    const dateTime = new Date(dateTimeString);
+  // getAllTodosfunc() {
+  //   this.service.getAllTodos().subscribe((todos: any) => {
+  //     const reframedTodos = todos
+  //       .filter((todo: any) => todo.createdAt)
+  //       .map((todo: any) => ({
+  //         ...todo,
+  //         createdAt: this.getFormattedDate(todo.updatedAt),
+  //         updatedAt: this.getFormattedDate(todo.updatedAt),
+  //       }));
+  //     this.persistAllTodo = reframedTodos;
+  //     this.todos = reframedTodos;
+  //     this.placeholderText = 'Enter a Todos....';
+  //     this.buttonText = 'Add Todo';
+  //     // this.getTodoCount(this.todos);
 
-    // Format the date as desired
-    const options: any = {
-      year: 'numeric',
-      month: 'short',
-      day: '2-digit',
-    };
-    const formattedDate = dateTime.toLocaleDateString('en-US', options);
-    // Format the time as desired
-    const formattedTime = dateTime.toLocaleTimeString('en-US');
-    // Combine date and time
-    const formattedDateTime = `${formattedDate} ${formattedTime}`;
-    return formattedDateTime;
-  }
-
-  getAllTodosfunc() {
-    this.service.getAllTodos().subscribe((todos: any) => {
-      const reframedTodos = todos
-        .filter((todo: any) => todo.createdAt)
-        .map((todo: any) => ({
-          ...todo,
-          createdAt: this.getFormattedDate(todo.updatedAt),
-          updatedAt: this.getFormattedDate(todo.updatedAt),
-        }));
-
-      console.log({ reframedTodos });
-      this.persistAllTodo = reframedTodos;
-      this.todos = reframedTodos;
-      this.placeholderText = 'Enter a Todos....';
-      this.buttonText = 'Add Todo';
-      this.getTodoCount(this.todos);
-    });
-  }
+  //   });
+  // }
 
   ngOnInit() {
-    this.getAllTodosfunc();
+    this.getAllTodosAndAssignTodos();
+  }
+
+  getAllTodosAndAssignTodos() {
+    this.service.getAllTodosfunc().subscribe((data: any) => {
+      (this.todos = data.todos), (this.persistAllTodo = data.persistAllTodo);
+      this.getTodoCount(this.todos);
+    });
   }
 
   getTodoCount(todos: any) {
@@ -78,8 +68,6 @@ export class TodosComponent implements AfterViewInit {
       acc[curr] = acc[curr] ? ++acc[curr] : 1;
       return acc;
     }, {});
-
-    console.log(this.todosCount, 'count in gettodocount');
   }
 
   addTodo() {
@@ -94,7 +82,7 @@ export class TodosComponent implements AfterViewInit {
           next: (todo) => {
             console.log(todo, 'todo in edits');
             this.toastr.success('Updated Todo Succesfully', 'Success');
-            this.getAllTodosfunc();
+            this.getAllTodosAndAssignTodos();
             this.todoText = '';
           },
         });
@@ -109,7 +97,7 @@ export class TodosComponent implements AfterViewInit {
           next: (todo) => {
             this.toastr.success('Added Todo Successfully', 'Success');
             this.todoText = '';
-            this.getAllTodosfunc();
+            this.getAllTodosAndAssignTodos();
           },
         });
     }
@@ -128,7 +116,7 @@ export class TodosComponent implements AfterViewInit {
     const singleTodo = this.todos.find((todo: any) => todo._id === id);
     this.service.updateTodo(singleTodo).subscribe({
       next: (todo) => {
-        this.getAllTodosfunc();
+        this.getAllTodosAndAssignTodos();
       },
     });
   }
@@ -136,7 +124,7 @@ export class TodosComponent implements AfterViewInit {
     this.service.deleteTodo(id).subscribe({
       next: (todo) => {
         this.toastr.success('Deleted Todo Successfuly', 'Success');
-        this.getAllTodosfunc();
+        this.getAllTodosAndAssignTodos();
       },
     });
   }
@@ -149,7 +137,7 @@ export class TodosComponent implements AfterViewInit {
   }
 
   onAllTodos() {
-    this.getAllTodosfunc();
+    this.getAllTodosAndAssignTodos();
   }
 
   onActiveTodos() {
@@ -179,35 +167,52 @@ export class TodosComponent implements AfterViewInit {
     }
   }
 
+  // selectSorting() {
+  //   if (this.selectedOptionValue === 'asc') {
+  //     if (this.selectedDate) {
+  //       this.todos = this.persistAllTodo
+  //         .slice()
+  //         .filter(
+  //           (todo: any) =>
+  //             this.formateDate(todo.createdAt) === this.selectedDate
+  //         )
+  //         .sort((a: any, b: any) => a.text.localeCompare(b.text));
+  //     } else {
+  //       this.todos = this.persistAllTodo
+  //         .slice()
+  //         .sort((a: any, b: any) => a.text.localeCompare(b.text));
+  //     }
+  //   } else {
+  //     if (this.selectedDate) {
+  //       this.todos = this.persistAllTodo
+  //         .slice()
+  //         .filter(
+  //           (todo: any) =>
+  //             this.formateDate(todo.createdAt) === this.selectedDate
+  //         )
+  //         .sort((a: any, b: any) => b.text.localeCompare(a.text));
+  //     } else {
+  //       this.todos = this.persistAllTodo
+  //         .slice()
+  //         .sort((a: any, b: any) => b.text.localeCompare(a.text));
+  //     }
+  //   }
+  // }
   selectSorting() {
+    const sortedTodos = this.persistAllTodo.slice();
+
     if (this.selectedOptionValue === 'asc') {
-      if (this.selectedDate) {
-        this.todos = this.persistAllTodo
-          .slice()
-          .filter(
-            (todo: any) =>
-              this.formateDate(todo.createdAt) === this.selectedDate
-          )
-          .sort((a: any, b: any) => a.text.localeCompare(b.text));
-      } else {
-        this.todos = this.persistAllTodo
-          .slice()
-          .sort((a: any, b: any) => a.text.localeCompare(b.text));
-      }
+      sortedTodos.sort((a: any, b: any) => a.text.localeCompare(b.text));
     } else {
-      if (this.selectedDate) {
-        this.todos = this.persistAllTodo
-          .slice()
-          .filter(
-            (todo: any) =>
-              this.formateDate(todo.createdAt) === this.selectedDate
-          )
-          .sort((a: any, b: any) => b.text.localeCompare(a.text));
-      } else {
-        this.todos = this.persistAllTodo
-          .slice()
-          .sort((a: any, b: any) => b.text.localeCompare(a.text));
-      }
+      sortedTodos.sort((a: any, b: any) => b.text.localeCompare(a.text));
+    }
+
+    if (this.selectedDate) {
+      this.todos = sortedTodos.filter(
+        (todo: any) => this.formateDate(todo.createdAt) === this.selectedDate
+      );
+    } else {
+      this.todos = sortedTodos;
     }
   }
 }

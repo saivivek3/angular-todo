@@ -43,6 +43,10 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  filter: grayscale(70%);
+}
+
 .box-container {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   background-color: hsl(237, 14%, 26%);

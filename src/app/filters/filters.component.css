@@ -18,3 +18,7 @@ button {
   border-radius: 8px;
   cursor: pointer;
 }
+
+button:hover {
+  filter: grayscale(70%);
+}

@@ -13,35 +13,8 @@ export class LineChartComponent {
   constructor(private service: TodosService) {}
 
   ngOnInit() {
-    this.getAllTodosfunc();
-  }
-
-  getFormattedDate(dateTimeString: string) {
-    const dateTime = new Date(dateTimeString);
-    const options: any = {
-      year: 'numeric',
-      month: 'short',
-      day: '2-digit',
-    };
-    const formattedDate: any = dateTime.toLocaleDateString('en-US', options);
-    // Format the time as desired
-    const formattedTime = dateTime.toLocaleTimeString('en-US');
-    // Combine date and time
-    const formattedDateTime = `${formattedDate} ${formattedTime}`;
-    return formattedDateTime;
-  }
-
-  getAllTodosfunc() {
-    this.service.getAllTodos().subscribe((todos: any) => {
-      const reframedTodos = todos
-        .filter((todo: any) => todo.createdAt)
-        .map((todo: any) => ({
-          ...todo,
-          createdAt: this.getFormattedDate(todo.createdAt),
-          updatedAt: this.getFormattedDate(todo.updatedAt),
-        }));
-      this.todos = reframedTodos;
-      this.callHighChart(this.todos);
+    this.service.getAllTodosfunc().subscribe((data) => {
+      this.callHighChart(data.todos);
     });
   }
 
