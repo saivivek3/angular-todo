@@ -10,7 +10,7 @@ import { TodoRepresentation } from '../services/models/todo-representation';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
-@Component({
+@Component({                              
   selector: 'app-todos',
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.css'],
@@ -36,6 +36,7 @@ export class TodosComponent implements AfterViewInit {
   ) {}
 
   @HostListener('window:scroll', ['$event'])
+
   ngAfterViewInit() {
     this.text.nativeElement.focus();
   }

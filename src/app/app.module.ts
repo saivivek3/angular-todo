@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { LineChartComponent } from './line-chart/line-chart.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { UsDataComponent } from './us-data/us-data.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
     FiltersComponent,
     LineChartComponent,
     PieChartComponent,
+    UsDataComponent,
   ],
   imports: [
     BrowserModule,

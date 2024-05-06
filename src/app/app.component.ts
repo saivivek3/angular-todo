@@ -1,6 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import * as Highcharts from 'highcharts';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LineChartComponent } from './line-chart/line-chart.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { TodosComponent } from './todos/todos.component';
+import { UsDataComponent } from './us-data/us-data.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,11 @@ const routes: Routes = [
   {
     path: '',
     component: TodosComponent,
+  },
+
+  {
+    path: 'us-data',
+    component: UsDataComponent,
   },
 ];
 
