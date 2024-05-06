@@ -98,7 +98,7 @@ export class UsDataComponent {
       series: [
         {
           data: data,
-          name: 'Random data',
+          name: ' Cities data',
           states: {
             hover: {
               color: '#BADA55',
