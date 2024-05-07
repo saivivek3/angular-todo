@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts/highmaps';
 
 @Component({
@@ -6,110 +6,112 @@ import * as Highcharts from 'highcharts/highmaps';
   templateUrl: './us-data.component.html',
   styleUrls: ['./us-data.component.css'],
 })
-export class UsDataComponent {
+export class UsDataComponent implements OnInit {
   ngOnInit() {
     this.callHighChart();
   }
 
-  async callHighChart() {
-    const topology = await fetch(
-      'https://code.highcharts.com/mapdata/countries/us/us-all.topo.json'
-    ).then((response) => response.json());
+  callHighChart() {
+    (async () => {
+      const mapData = await fetch(
+        'https://code.highcharts.com/mapdata/countries/us/us-all-all.topo.json'
+      ).then((response) => response.json());
 
-    const data = [
-      ['us-ma', 10],
-      ['us-wa', 11],
-      ['us-ca', 12],
-      ['us-or', 13],
-      ['us-wi', 14],
-      ['us-me', 15],
-      ['us-mi', 16],
-      ['us-nv', 17],
-      ['us-nm', 18],
-      ['us-co', 19],
-      ['us-wy', 20],
-      ['us-ks', 21],
-      ['us-ne', 22],
-      ['us-ok', 23],
-      ['us-mo', 24],
-      ['us-il', 25],
-      ['us-in', 26],
-      ['us-vt', 27],
-      ['us-ar', 28],
-      ['us-tx', 29],
-      ['us-ri', 30],
-      ['us-al', 31],
-      ['us-ms', 32],
-      ['us-nc', 33],
-      ['us-va', 34],
-      ['us-ia', 35],
-      ['us-md', 36],
-      ['us-de', 37],
-      ['us-pa', 38],
-      ['us-nj', 39],
-      ['us-ny', 40],
-      ['us-id', 41],
-      ['us-sd', 42],
-      ['us-ct', 43],
-      ['us-nh', 44],
-      ['us-ky', 45],
-      ['us-oh', 46],
-      ['us-tn', 47],
-      ['us-wv', 48],
-      ['us-dc', 49],
-      ['us-la', 50],
-      ['us-fl', 51],
-      ['us-ga', 52],
-      ['us-sc', 53],
-      ['us-mn', 54],
-      ['us-mt', 55],
-      ['us-nd', 56],
-      ['us-az', 57],
-      ['us-ut', 58],
-      ['us-hi', 59],
-      ['us-ak', 60],
-    ];
+      let data: any = [];
 
-    // @ts-ignore
-    Highcharts.mapChart('container', {
-      chart: {
-        map: topology,
-      },
+      // Add state acronym for tooltip
 
-      title: {
-        text: 'Highcharts Maps Us Cities ',
-      },
+      data = mapData.objects.default.geometries
+        .filter((item: any) => {
+          return ['gonzales', 'dallas'].includes(
+            item.properties?.name?.toLowerCase()
+          );
+        })
+        .map((item: any) => ({
+          code: item.properties?.['hc-key'],
+          name: item.properties?.name,
+        }));
 
-      subtitle: {
-        text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/us/us-all.topo.json">United States of America</a>',
-      },
+      // Create the map
 
-      mapNavigation: {
-        enabled: true,
-        buttonOptions: {
-          verticalAlign: 'bottom',
+      // Otherwise innerHTML doesn't update
+      //@ts-ignore
+      Highcharts.mapChart('container', {
+        chart: {
+          map: mapData,
+          height: '80%',
         },
-      },
 
-      colorAxis: {
-        min: 0,
-      },
+        title: {
+          text: 'Cities in U.S',
+          align: 'left',
+        },
 
-      series: [
-        {
-          data: data,
-          name: ' Cities data',
-          states: {
-            hover: {
-              color: '#BADA55',
+        accessibility: {
+          description: 'Demo showing a large dataset.',
+        },
+
+        legend: {
+          layout: 'vertical',
+          align: 'right',
+          margin: 0,
+          backgroundColor:
+            // theme
+            (Highcharts.defaultOptions &&
+              Highcharts.defaultOptions.legend &&
+              Highcharts.defaultOptions.legend.backgroundColor) ||
+            'rgba(255, 255, 255, 0.85)',
+        },
+
+        mapNavigation: {
+          enabled: true,
+        },
+
+        // colorAxis: {
+        //   min: 0,
+        //   max: 25,
+        //   tickInterval: 5,
+        //   stops: [
+        //     [0, '#F1EEF6'],
+        //     [0.65, '#900037'],
+        //     [1, '#500007'],
+        //   ],
+        //   labels: {
+        //     format: '{value}%',
+        //   },
+        // },
+
+        plotOptions: {
+          mapline: {
+            showInLegend: false,
+            enableMouseTracking: false,
+          },
+        },
+
+        series: [
+          {
+            data: data,
+            joinBy: ['hc-key', 'code'],
+            name: 'Cities',
+            borderWidth: 0.5,
+
+            shadow: false,
+            accessibility: {
+              enabled: false,
             },
           },
-          dataLabels: {
-            enabled: true,
-            format: '{point.name}',
+          {
+            type: 'mapline',
+            name: 'State borders',
+            color: 'white',
+            shadow: false,
+            borderWidth: 2,
+            accessibility: {
+              enabled: false,
+            },
           },
-        },
-      ],
-    });
+        ],
+      });
+    })();
   }
 }
